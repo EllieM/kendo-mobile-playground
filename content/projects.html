@@ -1,0 +1,34 @@
+<div data-role="view" id="viewAllProjects" data-layout="defaultLayout" data-title="All Projects" data-show="showAllProjects">
+    <ul
+        id="projectList"
+        class="item-list"
+        data-role="listview"
+        data-template="projectsAllTemplate"
+        data-source="dsAllProjects"
+    ></ul>
+</div>
+
+<script id="projectsAllTemplate" type="text/x-kendo-template">
+    <a class="details-link"
+       data-role="listview-link"
+       href="\#viewDocuments?projectId=#:id#">
+       <img src="content/images/#:image#" />
+       <h2>#:name#</h2>
+    </a>
+</script>
+
+<script>
+    
+    var dsAllProjects = kendo.data.DataSource.create({
+        schema: schema,
+        transport: { read: { url: "content/projects.json", dataType: "json" } },
+        error: function() { console.log(arguments); }
+    });
+    dsAllProjects.fetch();
+
+    function showAllProjects(e) {
+        e.view.content.find(".item-list").data("kendoMobileListView").refresh();
+        dsAllProjects.group({ field: "dataSourceId"  });
+    }
+
+</script>

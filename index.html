@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bentley Mobile Docs</title>
+    
+    <link href="http://cdn.kendostatic.com/2012.3.1114/styles/kendo.mobile.all.min.css" rel="stylesheet">
+    <link href="http://cdn.kendostatic.com/2012.3.1114/styles/kendo.common.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="content/css/style.css">
+
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2012.3.1114/js/kendo.all.min.js"></script>    
+</head>
+
+<body>
+    <!-- Layout -->
+    <div data-role="layout" data-id="defaultLayout">
+        <header data-role="header">
+            <div data-role="navbar">
+                <span data-role="view-title"></span>
+                <a class="about-button" data-align="right" href="content/about.html" data-role="button">About</a>
+            </div>
+        </header>
+
+        <footer data-role="footer" data-id="defaultLayout">
+            <div data-role="tabstrip">
+                <a href="#viewDataSources" data-icon="home">Data Sources</a>
+                <a href="content/projects.html" data-icon="organize">Projects</a>
+                <a href="content/search.html" data-icon="search">Search</a>
+                <a href="content/user.html" data-icon="contacts">User Profile</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Views: Data Sources -->
+    <div data-title="Bentley Mobile Docs" data-role="view" id="viewDataSources" data-url="/" data-layout="defaultLayout" data-show="showDataSources">
+        <ul data-role="listview" data-style="inset" data-type="group" id="logo">
+            <li>
+                <ul>
+                    <li><h2><span>Mobile Docs</span>
+                        <span style="color: gray; font-size: small">All Rights Reserved.<span>
+                        </h2><img src="content/images/logo.png" />
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        
+        <ul data-style="inset"
+            class="item-list"
+            data-role="listview"
+            data-template="dataSourcesTemplate"
+            data-source="dsDataSources">
+        </ul>
+    </div>
+
+    <!-- Views: Projects -->
+    <div data-title="Projects" data-role="view" id="viewProjects" data-transition="slide" data-layout="defaultLayout" data-show="showProjects">
+        <header data-role="header">
+            <div data-role="navbar">
+                <a data-role="backbutton" data-align="left">Back</a>
+                <span data-role="view-title"></span>
+            </div>
+        </header>
+
+        <div data-role="content">          
+            <ul id = "projectListId"
+                data-style="inset"
+                class="item-list"
+                data-role="listview"
+                data-template="projectsTemplate"
+                data-source="dsProjects">
+            </ul>
+        </div>
+    </div>
+
+    <!-- Views: Documents -->
+    <div data-title="Documents" data-role="view" id="viewDocuments" data-transition="slide" data-layout="defaultLayout" data-show="showDocuments">
+        <header data-role="header">
+            <div data-role="navbar">
+                <a data-role="backbutton" data-align="left">Back</a>
+                <span data-role="view-title"></span>
+            </div>
+        </header>
+
+        <div data-role="content">          
+            <ul id = "documentListId"
+                data-style="inset"
+                class="item-list"
+                data-role="listview"
+                data-template="documentsTemplate"
+                data-source="dsDocuments">
+            </ul>
+        </div>
+    </div>
+
+    <!-- Views: Document Info/Details -->
+    <div data-title="Document Info" data-role="view" id="viewDocumentDetails" data-transition="slide" data-layout="defaultLayout" data-show="showDocumentDetails">
+        <header data-role="header">
+            <div data-role="navbar">
+                <a data-role="backbutton" data-align="left">Back</a>
+                <span data-role="view-title"></span>
+            </div>
+        </header>
+        
+      <div data-role="content"/>
+    </div>
+
+
+
+    <!-- Templates -->
+    <script id="dataSourcesTemplate" type="text/x-kendo-template">
+        <a class="details-link" data-role="listview-link" href="\#viewProjects?dataSourceId=#:id#">
+           <img src="content/images/#:image#.png" />
+           <h2>#:name#</h2>
+        </a>
+    </script>
+
+     <script id="projectsTemplate" type="text/x-kendo-template">
+        <a class="details-link" data-role="listview-link" href="\#viewDocuments?projectId=#:id#">
+           <img src="content/images/#:image#" />
+           <h2>#:name#</h2>
+        </a>
+    </script>   
+
+     <script id="documentsTemplate" type="text/x-kendo-template">
+        <a class="details-link" data-role="listview-link" href="\#viewDocumentDetails?id=#:id#">
+           <img src="content/images/#:image#" />
+           <h2>#:name#</h2>
+        </a>
+    </script>   
+
+    <script id="documentDetailsTemplate" type="text/x-kendo-template">
+        <h2>#:name#</h2>
+        <hr>
+        <h4><span style="color: gray">ID:</span> #:id#</h4>
+        <h4><span style="color: gray">Info:</span> #:info#</h4>
+    </script>   
+
+
+    <!-- Java Script Logic -->
+    <script>
+        var app;
+        var schema = {model: {}};
+
+        /*
+        // base URL to the REST API
+        var base_url = "https://remotedev.mcscad.com:444/pwmobileaccess";
+
+        // *** continents data source
+        var dsDataSources = kendo.data.DataSource.create({
+            schema: schema.datasources,
+            transport: {
+                read: { 
+                    url: base_url + "/datasources",
+                    dataType: 'jsonp', 
+                    type: 'GET'
+                }
+
+            },
+            error: function() { console.log(arguments); }
+        });
+
+        dsDataSources.fetch( function () {
+            console.log("begin print ds:");
+            console.log(dsDataSources);
+            console.log("end print ds:");
+        });
+        */
+
+        // *** dataSources data source
+        var dsDataSources = kendo.data.DataSource.create({
+            schema: schema,
+            transport: { read: { url: "content/dataSources.json", dataType: "json" } },
+            error: function() { console.log(arguments); }
+        });
+        dsDataSources.fetch();
+
+
+        // *** projects data source
+        var dsProjects = kendo.data.DataSource.create({
+            schema: schema,
+            transport: { read: { url: "content/projects.json", dataType: "json" } },
+            error: function() { console.log(arguments); }
+        });
+        dsProjects.fetch();
+
+
+        // *** documents data source
+        var dsDocuments = kendo.data.DataSource.create({
+            schema: schema,
+            transport: { read: { url: "content/documents.json", dataType: "json" } },
+            error: function() { console.log(arguments); }
+        });
+        dsDocuments.fetch();
+
+
+        // *** show home screen
+        function showDataSources(e) {
+            console.log("showDataSources");
+
+            e.view.content.find(".item-list").data("kendoMobileListView").refresh();
+        }
+
+        // *** show projects per selected dataSource
+         function showProjects(e) {
+            console.log("showProjects");
+            
+            var view = e.view;
+            var dsId = parseInt(view.params.dataSourceId);
+            dsProjects.filter({ field: "dataSourceId", operator: "eq", value: dsId });
+        }       
+
+        // *** show documents per selected project
+         function showDocuments(e) {
+            console.log("showDocuments");
+
+            var view = e.view;
+            var prjId = parseInt(view.params.projectId);
+            dsDocuments.filter({ field: "projectId", operator: "eq", value: prjId });
+        }   
+
+        // show selected document detail
+        var itemDocumentDetailTemplate = kendo.template($("#documentDetailsTemplate").text());
+        function showDocumentDetails(e) {
+            console.log("showDocumentDetails");
+            var view = e.view;
+
+            dsDocuments.fetch(function() {
+                item = dsDocuments.get(view.params.id);
+                view.scrollerContent.html(itemDocumentDetailTemplate(item));
+                kendo.mobile.init(view.content);
+            });
+        } 
+
+
+        // *** start the app
+        app = new kendo.mobile.Application($(document.body), { transition: "slide" });
+    </script>
+
+    <!-- Style -->
+    <style scoped>
+        .km-ios .km-insetcontent {
+            /* background: white !important; */
+        }
+
+        #logo li {
+            color: #4C4C4C;
+        }
+        #logo h2 {
+            display: inline-block;
+            font-size: 1.1em;
+            margin: 1.5em 0 0 1em;
+        }
+        #logo h2 span {
+            display: block;
+            clear: both;
+            font-size: 1.5em;
+            margin: .2em 0 0 0;
+        }
+        #logo img {
+            width: 250px;
+            height: 80px;
+            float: left;
+            margin: 1em;
+            -webkit-box-shadow: 0 1px 3px #333;
+            box-shadow: 0 1px 3px #333;
+            -webkit-border-radius: 8px;
+            border-radius: 8px;
+        }
+        #logo input {
+            border: 1px dotted gray;
+        }   
+        #logo textarea {
+            border: 1px dotted gray;
+        } 
+    </style>
+
+</body>
+</html>
+

@@ -1,0 +1,15 @@
+{
+   "datasources":
+   [
+       {
+           "fullname": "vhdDevW2k8R2s2.MCSCAD.local:ProjectWise_S4",
+           "name": "PW Series 4 Examples",
+           "internal": "ProjectWise_S4"
+       },
+       {
+           "fullname": "vhdDevW2k8R2s2.MCSCAD.local:ProjectWise_S4_Client",
+           "name": "PW Series 4 Development",
+           "internal": "ProjectWise_S4_Client"
+       }
+   ]
+}
